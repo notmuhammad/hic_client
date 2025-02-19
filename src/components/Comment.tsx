@@ -7,6 +7,7 @@ export default function Comment(
     return (
         <div>
             <p className="font-bold">{ comment.user.firstName } { comment.user.lastName }</p>
+            <p>{ comment.createdAt }</p>
             <pre>{ comment.content }</pre>
         </div>
     );
