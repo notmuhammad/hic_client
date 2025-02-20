@@ -25,6 +25,10 @@
         font-size: var(--text-4xl);
     }
 
+    h2 {
+        font-size: var(--text-2xl);
+    }
+
     .prose p {
         font-family: var(--font-eb);
         font-size: var(--text-xl);
