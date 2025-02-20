@@ -10,7 +10,7 @@ import User from './components/User';
 
 export default function App() {
     return (
-        <div>
+        <div className='bg-neutral-50'>
 
             <Router>
                 <Routes>

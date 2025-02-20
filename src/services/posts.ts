@@ -12,9 +12,17 @@ async function getPost(id: string) {
     return post;
 }
 
+async function update(postId: string, content: string) {
+    const resp = await axios.patch(`${baseUrl}/${postId}`, { content });
+    console.log(resp.status);
+
+    return resp.data;
+}
+
 const postsService = {
     getAllPosts,
-    getPost
+    getPost,
+    update,
 };
 
 export default postsService;
