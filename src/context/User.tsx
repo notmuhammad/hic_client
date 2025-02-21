@@ -12,8 +12,6 @@ function userReducer(state: UserState, action: UserReducerAction): UserState {
             const { access_token } = action.payload;
             localStorage.setItem('access_token', access_token);
 
-            console.log(action.payload)
-
             return action.payload;
         } break;
         case 'logout': {

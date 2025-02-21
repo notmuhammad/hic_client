@@ -89,7 +89,7 @@ function Comments(
     }
 
     return (
-        <div className='w-full mt-6 p-4 border-t-2 border-t-neutral-100'>
+        <div className='w-full mt-6 p-4 border-t-2 border-t-slate-100'>
             <h2>Comments</h2>
 
             <form onSubmit={handleSubmit} className='flex items-center justify-center gap-2 mb-2'>

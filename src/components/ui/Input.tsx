@@ -12,7 +12,7 @@ export default function Input(
     return (
         <input
             {...props}
-            className={clsx('w-full px-4 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 border-2 border-transparent focus:border-yellow-500 outline-0 placeholder:italic')}
+            className={clsx('w-full px-4 py-2 rounded-full bg-slate-100 hover:bg-slate-200 border-2 border-transparent focus:border-yellow-500 outline-0 placeholder:italic placeholder:text-slate-400')}
         />
     )
 }

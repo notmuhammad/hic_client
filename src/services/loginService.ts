@@ -9,7 +9,6 @@ async function login(email: string, password: string): Promise<User> {
         { email, password },
     );
 
-    console.log(data);
     return data;
 }
 

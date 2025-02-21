@@ -12,12 +12,11 @@ import UserProvider from './context/User';
 export default function App() {
     return (
         <UserProvider>
-            <div className='bg-neutral-50'>
-
+            <div className='size-full'>
                 <Router>
                     <Routes>
                         <Route path='/auth/'>
-                            <Route path='' element={<Login />} />
+                            <Route path='login' element={<Login />} />
                             <Route path='signup' element={<Signup />} />
                         </Route>
                         <Route path='/' element={<Interface />}>
@@ -27,7 +26,6 @@ export default function App() {
                         </Route>
                     </Routes>
                 </Router>
-
             </div>
         </UserProvider>
     );

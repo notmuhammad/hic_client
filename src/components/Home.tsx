@@ -18,6 +18,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col divide-y-[1px]">
+            /home
             {
                 posts?.map(post => (
                     <Link to={`/post/${post.id}`} key={post.id}>

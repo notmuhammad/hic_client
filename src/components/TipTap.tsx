@@ -21,7 +21,7 @@ export default function TipTap(
         editorProps: {
             attributes: {
                 class: clsx('prose max-w-none p-4 focus-within:outline-0 border-[1px] border-b-0 rounded-2xl rounded-b-none', {
-                    'border-neutral-200 ': editable,
+                    'border-slate-200 ': editable,
                     'border-transparent': !editable
                 })
             }
@@ -63,7 +63,7 @@ export default function TipTap(
                 <EditorContent editor={editor} />
                 <div
                     hidden={!editable}
-                    className="sticky bottom-0 left-0 right-0 p-2 flex items-center gap-2 bg-white rounded-b-2xl border-[1px] border-t-0 border-neutral-200"
+                    className="sticky bottom-0 left-0 right-0 p-2 flex items-center gap-2 bg-white rounded-b-2xl border-[1px] border-t-0 border-slate-200"
                 >
                     <Button onClick={handlePublish}>Publish</Button>
                     <Button rounded={false} sm variant={editor?.isActive('bold') ? 'secondary' : 'ghost'} onClick={() => editor?.chain().focus().toggleBold().run()}><Bold /></Button>
