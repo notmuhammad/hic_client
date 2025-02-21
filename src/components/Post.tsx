@@ -4,17 +4,14 @@ import useField from '../hooks/useField';
 
 import postsService from '../services/posts';
 import commentsService from '../services/comments';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 
 import TipTap from './TipTap';
 import Comment from './Comment';
 import { Send } from 'lucide-react';
 import Input from './ui/Input';
 import Button from './ui/Button';
-import { Comment as CommentT } from '../types';
-
-dayjs.extend(relativeTime);
+import { Comment as CommentT } from '../types/comment';
+import { ago } from './util/time';
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -22,7 +19,6 @@ export default function Post() {
 
     useEffect(() => {
         postsService.getPost(params.postId!)
-            .then(resp => resp.data)
             .then(setPost);
     }, []);
 
@@ -38,7 +34,7 @@ export default function Post() {
                 <h1 className='mt-8'>{ post.title }</h1>
                 <div className="flex gap-2 items-center">
                     <p>by { post.author.firstName } { post.author.lastName }</p>
-                    <p className='text-sm text-black/50'>{ dayjs(post.createdAt).subtract(2, 'hour').fromNow() }</p>
+                    <p className='text-sm text-black/50'>{ ago(post.createdAt) }</p>
                 </div>
             </div>
             <TipTap post={post} />

@@ -15,6 +15,7 @@ function userReducer(state: UserState, action: UserReducerAction): UserState {
             return action.payload;
         } break;
         case 'logout': {
+            localStorage.removeItem('access_token');
             return null;
         } break;
         default:

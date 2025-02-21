@@ -25,7 +25,7 @@ export default function Button(
             className={clsx('flex gap-2 items-center cursor-pointer',
                 {
                     'text-white font-semibold bg-yellow-500 hover:bg-yellow-400 hover:shadow-md shadow-amber-200': variant === 'primary',
-                    'text-black bg-slate-200 hover:bg-slate-100': variant === 'secondary',
+                    'text-black bg-slate-200 hover:bg-slate-300': variant === 'secondary',
                     'text-black/50 bg-transparent hover:bg-slate-200 hover:text-black': variant === 'ghost',
                     'rounded-full': rounded,
                     'rounded-lg': !rounded,

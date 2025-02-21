@@ -1,17 +1,17 @@
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../context/User';
 import { useContext, useEffect } from 'react';
-import loginService from '../services/loginService';
+import authService from '../services/authService';
 import usersService from '../services/usersService';
 import { useNavigate } from 'react-router-dom';
-import { User2 } from 'lucide-react';
+import { Bell, DoorOpen, Home, Pen, Settings, User2 } from 'lucide-react';
 import Button from './ui/Button';
 
 export default function Interface() {
     const user = useContext(UserContext);
     const navigate = useNavigate();
 
-    // Fetch user's access_token from localStorage or redirect to login page
+    // Fetch and update user's information if access_token is found in localStorage
     useEffect(() => {
         console.log(user.state)
         if (!user.state) {
@@ -23,6 +23,7 @@ export default function Interface() {
                     
                 return;
             }
+            // Redirect to login page if no access_token found
             // else  {
             //     navigate('/auth/login');
             //     return;
@@ -31,10 +32,25 @@ export default function Interface() {
     }, []);
 
     return (
-        <div className='size-full bg-slate-100'>
+        <div className='flex flex-col size-full overflow-hidden bg-slate-100'>
             <Navbar />
-            <div className='mx-auto w-2/3 bg-white h-full'>
-                <Outlet />
+            <div className='relative flex size-full justify-center overflow-y-scroll'>
+                <div className='sticky top-0 flex flex-col gap-2 p-5'>
+                    <Button variant='secondary' onClick={() => navigate('/')}><Home />Home</Button>
+                    <Button variant='secondary' onClick={() => navigate('/')}><Bell />Notifications</Button>
+                    <Button onClick={() => navigate('/write')}><Pen />Write</Button>
+                    {
+                        user.state && 
+                        <div className='mt-auto mx-auto'>
+                            <Button variant='ghost' onClick={() => user.dispatch({ type: 'logout' })}><DoorOpen />Logout</Button>
+                            <Button variant='secondary' onClick={() => navigate('/')}><Settings />Settings</Button>
+                        </div>
+                    }
+                </div>
+
+                <div className='w-2/3 h-fit overflow-x-hidden bg-white '>
+                    <Outlet />
+                </div>
             </div>
         </div>
     );
@@ -45,9 +61,9 @@ function Navbar() {
     const navigate = useNavigate();
 
     return (
-        <div className="sticky top-0 left-0 right-0 flex  items-center px-8 py-4 bg-white select-none">
-            <h1 className="font-9xl font-eb">HIC Blogs</h1>
-            <div className="ml-auto flex items-center gap-2 text-slate-600">
+        <div className='flex items-center px-8 py-4 bg-white select-none'>
+            <h1 className='font-9xl font-eb'>HIC Blogs</h1>
+            <div className='ml-auto flex items-center gap-2 text-slate-600'>
                 {
                     user.state
                         ? <>

@@ -20,7 +20,6 @@ export interface UserReducerLoginAction {
 
 export interface UserReducerLogoutAction {
     type: 'logout',
-    payload: never
 }
 
 export interface UserContextType {

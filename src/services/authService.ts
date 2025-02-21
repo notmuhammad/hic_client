@@ -12,8 +12,8 @@ async function login(email: string, password: string): Promise<User> {
     return data;
 }
 
-const loginService = {
+const authService = {
     login,
 };
 
-export default loginService;
+export default authService;
