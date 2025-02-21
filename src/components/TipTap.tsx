@@ -7,16 +7,17 @@ import postsService from '../services/posts';
 
 import Button from './ui/Button';
 import { Bold, Code, CodeSquare, Italic, List, ListOrdered, PencilIcon, Quote, Undo2 } from 'lucide-react';
+import { Post } from '../types/post';
 
 export default function TipTap(
     { post }:
-    { post?: any }
+    { post?: Post }
 ) {
     const [editable, setEditable] = useState(false);
     const oldContent = useRef('');
     const editor = useEditor({
         extensions: [StarterKit],
-        content: post.content,
+        content: post?.content,
         editable: editable,
         editorProps: {
             attributes: {
@@ -31,13 +32,17 @@ export default function TipTap(
     useEffect(() => {
         editor?.setEditable(editable);
         if (editable)
-            oldContent.current = editor?.getHTML();
+            oldContent.current = editor?.getHTML() || '';
     }, [editor, editable]);
 
+    // TODO: toaster component
     async function handlePublish() {
-        console.log('saving...')
+        if (!post)
+            throw new Error('Could not resolve post data.');
+        if (!editor?.getHTML())
+            throw new Error('Could not extract HTML from editor.');
+
         await postsService.update(post.id, editor?.getHTML());
-        console.log('saved!')
         setEditable(false);
     }
 

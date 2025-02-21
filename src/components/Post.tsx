@@ -10,18 +10,21 @@ import Comment from './Comment';
 import { Send } from 'lucide-react';
 import Input from './ui/Input';
 import Button from './ui/Button';
-import { Comment as CommentT } from '../types/comment';
+import { Comment as CommentType } from '../types/comment';
 import { ago } from './util/time';
+import { Post as PostType } from '../types/post';
 
 export default function Post() {
-    const [post, setPost] = useState(null);
+    const [post, setPost] = useState<PostType | null>(null);
     const params = useParams();
 
+    // Fetch post
     useEffect(() => {
         postsService.getPost(params.postId!)
             .then(setPost);
     }, []);
 
+    // TODO: Create skeleton
     if (!post) {
         return (
             <div>Loading...</div>
@@ -44,12 +47,13 @@ export default function Post() {
     );
 }
 
+// Comment section compnent. Includes comment posting form.
 function Comments(
     { post }:
-    { post: any }
+    { post: PostType }
 ) {
-    const [comments, setComments] = useState(post.comments);
-    const [pendingComment, setPendingComment] = useState<CommentT | null>(null);
+    const [comments, setComments] = useState<CommentType[]>(post.comments);
+    const [pendingComment, setPendingComment] = useState<CommentType | null>(null);
     const commentField = useField('');
 
     async function handleSubmit(e: React.FormEvent) {

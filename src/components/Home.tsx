@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import postsService from '../services/posts';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Post } from '../types/post';
 
 export default function Home() {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState<Post[]>([]);
 
     useEffect(() => {
         postsService.getAllPosts()
             .then(setPosts);
     }, []);
 
-    console.log(posts)
     if (!posts) {
         return <div>Loading posts...</div>;
     }

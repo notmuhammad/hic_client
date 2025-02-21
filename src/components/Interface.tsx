@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../context/User';
 import { useContext, useEffect } from 'react';
-import authService from '../services/authService';
 import usersService from '../services/usersService';
 import { useNavigate } from 'react-router-dom';
 import { Bell, DoorOpen, Home, Pen, Settings, User2 } from 'lucide-react';
@@ -13,10 +12,8 @@ export default function Interface() {
 
     // Fetch and update user's information if access_token is found in localStorage
     useEffect(() => {
-        console.log(user.state)
         if (!user.state) {
             const access_token = localStorage.getItem('access_token');
-            console.log(access_token)
             if (access_token) {
                 usersService.getProfileByToken(access_token)
                     .then(data => user.dispatch({ type: 'login', payload: { ...data, access_token } }));
@@ -29,7 +26,7 @@ export default function Interface() {
             //     return;
             // }
         }
-    }, []);
+    }, [user]);
 
     return (
         <div className='flex flex-col size-full overflow-hidden bg-slate-100'>

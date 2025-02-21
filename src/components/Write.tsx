@@ -1,13 +1,13 @@
-import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/User';
+import useField from '../hooks/useField';
+import { EditorContent, useEditor } from '@tiptap/react';
+
+import StarterKit from '@tiptap/starter-kit';
 import postsService from '../services/posts';
 import Button from './ui/Button';
 import { Bold, Code, CodeSquare, Italic, List, ListOrdered, Quote, Undo2 } from 'lucide-react';
-import Input from './ui/Input';
-import useField from '../hooks/useField';
 
 export default function Write() {
     const user = useContext(UserContext);
@@ -24,16 +24,19 @@ export default function Write() {
     });
     const title = useField('Untitled post');
 
+    // Create the post and redirect to the newly created post's page
     async function handlePublish() {
-        if (!user.state) {
+        if (!user.state)
             throw new Error('Unauthorized to create a post.');
-        }
+        if (!editor?.getHTML())
+            throw new Error('Could not extract HTML from editor.');
 
-        console.log('publishing...')
-        await postsService.create(title.value, editor?.getHTML(), user.state);
-        console.log('published!');
+        const post = await postsService.create(title.value, editor?.getHTML(), user.state);
+
+        navigate(`/post/${post.id}`);
     }
 
+    // Redirect to homepage. Using "confirm()" for now
     function handleCancel() {
         if (confirm('Are you sure you want to discard this post?'))
             navigate('/');
@@ -64,5 +67,5 @@ export default function Write() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
