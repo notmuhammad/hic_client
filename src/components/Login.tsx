@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { UserContext } from '../context/User';
 import { useNavigate } from 'react-router-dom';
 
-import authService from '../services/authService';
+import authService from '../services/auth';
 
 import Button from './ui/Button';
 import Input from './ui/Input';

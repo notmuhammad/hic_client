@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { UserContext } from '../context/User';
 import { useContext, useEffect } from 'react';
-import usersService from '../services/usersService';
+import usersService from '../services/users';
 import { useNavigate } from 'react-router-dom';
 import { Bell, DoorOpen, Home, Pen, Settings, User2 } from 'lucide-react';
 import Button from './ui/Button';
@@ -45,7 +45,7 @@ export default function Interface() {
                     }
                 </div>
 
-                <div className='w-2/3 h-fit overflow-x-hidden bg-white '>
+                <div className='w-2/3 h-fit bg-white '>
                     <Outlet />
                 </div>
             </div>

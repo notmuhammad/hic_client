@@ -24,8 +24,12 @@ async function create(title: string, content: string, user: User) {
     return data;
 }
 
-async function update(postId: string, content: string) {
-    const resp = await axios.patch(`${baseUrl}/${postId}`, { content });
+async function update(postId: string, content: string, access_token: string) {
+    const resp = await axios.patch(
+        `${baseUrl}/${postId}`,
+        { content },
+        { headers: { Authorization: `Bearer ${access_token}` }}
+    );
     console.log(resp.status);
 
     return resp.data;

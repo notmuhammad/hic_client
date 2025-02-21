@@ -3,7 +3,7 @@ import postsService from '../services/posts';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Post } from '../types/post';
-import { ago } from '../util/time';
+import { removeHTML } from '../util/parse';
 
 export default function Home() {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -25,17 +25,19 @@ export default function Home() {
                     <Link
                         to={`/post/${post.id}`}
                         key={post.id}
-                        className='rounded-2xl group relative overflow-hidden p-4 bg-transparent hover:bg-slate-200 transition-all'
+                        className='w-full overflow-x-hidden rounded-2xl group relative p-4 bg-transparent hover:bg-slate-200 transition-all'
                         // before:flex before:items-center before:justify-center before:text-4xl before:content-["Read_post"] before:backdrop-blur-lg before:opacity-0 hover:before:opacity-100 before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:bg-slate-800/10 '
                     >
                         <h1>{ post.title }</h1>
-                        <p>By { post.author.firstName } { post.author.lastName }</p>
-                        <p>{ ago(post.createdAt) }</p>
-                        <pre className="text-wrap line-clamp-3">
-                            { post.content }
-                        </pre>
-                        <p className="inline-flex items-center justify-center font-bold underline decoration-2">
-                            Read more <ChevronRight size={18} />
+                        <div className="flex items-center gap-2">
+                            <p>by { post.author.firstName } { post.author.lastName }</p>
+                            <p className='text-slate-400 text-sm'>{ new Date(post.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }) }</p>
+                        </div>
+                        <p className="break-all text-wrap text-slate-400 italic">
+                            { removeHTML(post.content) }
+                        </p>
+                        <p className="inline-flex text-slate-500 items-center justify-center font-bold">
+                            Read full post <ChevronRight size={18} />
                         </p>
                     </Link>
                 ))

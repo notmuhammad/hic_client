@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import useField from '../hooks/useField';
 
 import postsService from '../services/posts';
@@ -13,6 +13,7 @@ import Button from './ui/Button';
 import { Comment as CommentType } from '../types/comment';
 import { ago } from '../util/time';
 import { Post as PostType } from '../types/post';
+import { UserContext } from '../context/User';
 
 export default function Post() {
     const [post, setPost] = useState<PostType | null>(null);
@@ -52,27 +53,33 @@ function Comments(
     { post }:
     { post: PostType }
 ) {
+    const user = useContext(UserContext);
     const [comments, setComments] = useState<CommentType[]>(post.comments);
     const [pendingComment, setPendingComment] = useState<CommentType | null>(null);
     const commentField = useField('');
+    const navigate = useNavigate();
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
+
+        if (!user.state)
+            throw new Error('Unauthorized to comment.');
 
         const now = new Date(Date.now() + 60 * 60 * 1000 * 2).toISOString();
         setPendingComment({
             id: '',
             content: commentField.value,
             post: post.id,
-            user: post.author,
+            user: user.state,
             createdAt: now
         });
 
-        const { data: comment } = await commentsService.send(post.id, 'lhk862bp7073ddjktvydjv92', commentField.value);
+        const { data: comment } = await commentsService.send(post.id, user.state.id, commentField.value);
         setPendingComment(null);
-        setComments([...comments, comment]);
+        setComments([...comments, { ...comment, user: user.state }]);
     }
 
+    // If there are no comments, display a message. Otherwise, display the list of comments.
     let commentsSection;
     if (!comments || (comments.length === 0)) {
         commentsSection = <p>No comments yet. Be the first to comment!</p>;
@@ -92,18 +99,24 @@ function Comments(
         <div className='w-full mt-6 p-4 border-t-2 border-t-slate-100'>
             <h2>Comments</h2>
 
-            <form onSubmit={handleSubmit} className='flex items-center justify-center gap-2 mb-2'>
-                <Input
-                    required
-                    value={commentField.value}
-                    onChange={commentField.onChange}
-                    type="text"
-                    name="comment"
-                    id="comment"
-                    placeholder='Nice post!'
-                />
-                <Button type="submit"><Send /></Button>
-            </form>
+            {
+                !user.state
+                    ?
+                    <Button onClick={() => navigate('/auth/login')}>Login to comment</Button>
+                    :
+                    <form onSubmit={handleSubmit} className='flex items-center justify-center gap-2 mb-2'>
+                        <Input
+                            required
+                            value={commentField.value}
+                            onChange={commentField.onChange}
+                            type="text"
+                            name="comment"
+                            id="comment"
+                            placeholder='Nice post!'
+                        />
+                        <Button type="submit"><Send /></Button>
+                    </form>
+            }
             <div>
                 { 
                     pendingComment && <Comment pending comment={pendingComment} />

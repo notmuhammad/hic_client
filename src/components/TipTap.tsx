@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 
 import StarterKit from '@tiptap/starter-kit';
@@ -8,11 +8,13 @@ import postsService from '../services/posts';
 import Button from './ui/Button';
 import { Bold, Code, CodeSquare, Italic, List, ListOrdered, PencilIcon, Quote, Undo2 } from 'lucide-react';
 import { Post } from '../types/post';
+import { UserContext } from '../context/User';
 
 export default function TipTap(
     { post }:
     { post?: Post }
 ) {
+    const user = useContext(UserContext);
     const [editable, setEditable] = useState(false);
     const oldContent = useRef('');
     const editor = useEditor({
@@ -37,12 +39,14 @@ export default function TipTap(
 
     // TODO: toaster component
     async function handlePublish() {
+        if (!user.state)
+            throw new Error('Unauthorized.');
         if (!post)
             throw new Error('Could not resolve post data.');
         if (!editor?.getHTML())
             throw new Error('Could not extract HTML from editor.');
 
-        await postsService.update(post.id, editor?.getHTML());
+        await postsService.update(post.id, editor?.getHTML(), user.state?.access_token);
         setEditable(false);
     }
 
@@ -54,11 +58,14 @@ export default function TipTap(
 
     return (
         <>
-            <Button
-                onClick={editable ? handleCancel : () => setEditable(true)}
-            >
-                <PencilIcon />Edit
-            </Button>
+            {
+                user.state && user.state.id === post?.author.id &&
+                <Button
+                    onClick={editable ? handleCancel : () => setEditable(true)}
+                >
+                    <PencilIcon />Edit
+                </Button>
+            }
 
             <div
                 className={clsx('rounded-2xl', {
