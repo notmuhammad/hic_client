@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Post } from '../types/post';
 import { removeHTML } from '../util/parse';
+import Loader from './ui/Loader';
 
 export default function Home() {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -13,8 +14,8 @@ export default function Home() {
             .then(setPosts);
     }, []);
 
-    if (!posts) {
-        return <div>Loading posts...</div>;
+    if (!posts || posts.length === 0) {
+        return <Loader />;
     }
 
     return (
@@ -33,7 +34,7 @@ export default function Home() {
                             <p>by { post.author.firstName } { post.author.lastName }</p>
                             <p className='text-slate-400 text-sm'>{ new Date(post.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }) }</p>
                         </div>
-                        <p className="break-all text-wrap text-slate-400 italic">
+                        <p className="break-all line-clamp-3 text-wrap text-slate-400 italic">
                             { removeHTML(post.content) }
                         </p>
                         <p className="inline-flex text-slate-500 items-center justify-center font-bold">

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/User';
 import useField from '../hooks/useField';
@@ -23,6 +23,11 @@ export default function Write() {
         }
     });
     const title = useField('Untitled post');
+
+    useEffect(() => {
+        if (!user.state || !user.state.access_token)
+            navigate('/auth/login');
+    }, [user]);
 
     // Create the post and redirect to the newly created post's page
     async function handlePublish() {

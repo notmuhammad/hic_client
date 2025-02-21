@@ -14,6 +14,7 @@ import { Comment as CommentType } from '../types/comment';
 import { ago } from '../util/time';
 import { Post as PostType } from '../types/post';
 import { UserContext } from '../context/User';
+import Loader from './ui/Loader';
 
 export default function Post() {
     const [post, setPost] = useState<PostType | null>(null);
@@ -27,9 +28,7 @@ export default function Post() {
 
     // TODO: Create skeleton
     if (!post) {
-        return (
-            <div>Loading...</div>
-        );
+        return <Loader />;
     }
 
     return (
@@ -77,6 +76,7 @@ function Comments(
         const { data: comment } = await commentsService.send(post.id, user.state.id, commentField.value);
         setPendingComment(null);
         setComments([...comments, { ...comment, user: user.state }]);
+        commentField.setValue('');
     }
 
     // If there are no comments, display a message. Otherwise, display the list of comments.
@@ -94,6 +94,8 @@ function Comments(
                 />
             ));
     }
+
+
 
     return (
         <div className='w-full mt-6 p-4 border-t-2 border-t-slate-100'>
