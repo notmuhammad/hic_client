@@ -41,7 +41,7 @@ export default function Write() {
         navigate(`/post/${post.id}`);
     }
 
-    // Redirect to homepage. Using "confirm()" for now
+    // Redirect to homepage. Using 'confirm()' for now
     function handleCancel() {
         if (confirm('Are you sure you want to discard this post?'))
             navigate('/');
@@ -59,7 +59,7 @@ export default function Write() {
             />
             <div className='rounded-2xl transition-shadow hover:shadow-lg focus-within:shadow-lg'>
                 <EditorContent editor={editor} />
-                <div className="sticky bottom-0 left-0 right-0 p-2 flex items-center gap-2 bg-white rounded-b-2xl border-[1px] border-t-0 border-slate-200">
+                <div className='sticky bottom-0 left-0 right-0 p-2 flex items-center gap-2 bg-white rounded-b-2xl border-[1px] border-t-0 border-slate-200'>
                     <Button onClick={handlePublish}>Publish</Button>
                     <Button rounded={false} sm variant={editor?.isActive('bold') ? 'secondary' : 'ghost'} onClick={() => editor?.chain().focus().toggleBold().run()}><Bold /></Button>
                     <Button rounded={false} sm variant={editor?.isActive('italic') ? 'secondary' : 'ghost'} onClick={() => editor?.chain().focus().toggleItalic().run()}><Italic /></Button>

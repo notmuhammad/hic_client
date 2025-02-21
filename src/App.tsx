@@ -9,6 +9,7 @@ import Post from './components/Post';
 import User from './components/User';
 import UserProvider from './context/User';
 import Write from './components/Write';
+import NotFound from './components/NotFound';
 
 export default function App() {
     return (
@@ -25,6 +26,7 @@ export default function App() {
                             <Route path='write' element={<Write />} />
                             <Route path='post/:postId' element={<Post />} />
                             <Route path='user/:userId' element={<User />} />
+                            <Route path='404' element={<NotFound />} />
                         </Route>
                     </Routes>
                 </Router>

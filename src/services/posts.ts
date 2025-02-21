@@ -2,6 +2,7 @@ import axios from 'axios';
 import { User } from '../types/user';
 
 const baseUrl = 'http://localhost:3000/posts';
+// const baseUrl = 'https://hicserver-production.up.railway.app/posts';
 
 async function getAllPosts() {
     const { data } = await axios.get(baseUrl);

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { User } from '../types/user';
 
-const baseUrl = 'http://localhost:3000/auth';
+// const baseUrl = 'http://localhost:3000/auth';
+const baseUrl = 'https://hicserver-production.up.railway.app/auth';
 
 async function login(email: string, password: string): Promise<User> {
     const { data } = await axios.post(

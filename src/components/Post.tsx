@@ -19,11 +19,16 @@ import Loader from './ui/Loader';
 export default function Post() {
     const [post, setPost] = useState<PostType | null>(null);
     const params = useParams();
+    const navigate = useNavigate();
 
     // Fetch post
     useEffect(() => {
         postsService.getPost(params.postId!)
-            .then(setPost);
+            .then(setPost)
+            .catch(error => {
+                if (error.response.status === 404)
+                    navigate('/404');
+            });
     }, []);
 
     // TODO: Create skeleton
@@ -35,7 +40,7 @@ export default function Post() {
         <div className='flex flex-col items-center px-4'>
             <div className='w-full flex flex-col items-start'>
                 <h1 className='mt-8'>{ post.title }</h1>
-                <div className="flex gap-2 items-center">
+                <div className='flex gap-2 items-center'>
                     <p>by { post.author.firstName } { post.author.lastName }</p>
                     <p className='text-sm text-black/50'>{ ago(post.createdAt) }</p>
                 </div>
@@ -111,12 +116,12 @@ function Comments(
                             required
                             value={commentField.value}
                             onChange={commentField.onChange}
-                            type="text"
-                            name="comment"
-                            id="comment"
+                            type='text'
+                            name='comment'
+                            id='comment'
                             placeholder='Nice post!'
                         />
-                        <Button type="submit"><Send /></Button>
+                        <Button type='submit'><Send /></Button>
                     </form>
             }
             <div>

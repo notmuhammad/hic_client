@@ -16,7 +16,7 @@ export default function Interface() {
             const access_token = localStorage.getItem('access_token');
             if (access_token) {
                 usersService.getProfileByToken(access_token)
-                    .then(data => user.dispatch({ type: 'login', payload: { ...data, access_token } }));
+                    .then(data => user.dispatch({ type: 'login', payload: { ...data, access_token } }))
                     
                 return;
             }

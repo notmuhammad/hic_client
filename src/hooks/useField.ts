@@ -4,7 +4,7 @@ export default function useField<T>(initialValue: T) {
     const [value, setValue] = useState<T>(initialValue);
 
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setValue(e.target.value);
+        setValue(e.target.value as T);
     }
 
     return { value, setValue, onChange };
