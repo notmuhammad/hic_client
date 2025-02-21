@@ -32,7 +32,7 @@ export default function Login() {
                         value={email.value}
                         onChange={email.onChange}
                         placeholder='your@email.com'
-                        // type='email'
+                        type='email'
                         name='email'
                         id='email'
                     />

@@ -12,8 +12,18 @@ async function login(email: string, password: string): Promise<User> {
     return data;
 }
 
+async function signup(firstName: string, lastName: string, email: string, password: string): Promise<User> {
+    const { data } = await axios.post(
+        `${baseUrl}/signup`,
+        { firstName, lastName, email, password },
+    );
+
+    return data;
+}
+
 const authService = {
     login,
+    signup
 };
 
 export default authService;
