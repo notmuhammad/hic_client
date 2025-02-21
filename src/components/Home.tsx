@@ -3,6 +3,7 @@ import postsService from '../services/posts';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Post } from '../types/post';
+import { ago } from '../util/time';
 
 export default function Home() {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -18,7 +19,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col p-2">
-            <h1 className='font-eb text-6xl border-b-2 border-slate-200 mb-6'>Recent posts</h1>
+            <h1 className='font-eb text-6xl underline decoration-[4px] decoration-slate-200 mb-2 text-center'>All posts</h1>
             {
                 posts?.map(post => (
                     <Link
@@ -29,7 +30,7 @@ export default function Home() {
                     >
                         <h1>{ post.title }</h1>
                         <p>By { post.author.firstName } { post.author.lastName }</p>
-                        <p>{ post.createdAt }</p>
+                        <p>{ ago(post.createdAt) }</p>
                         <pre className="text-wrap line-clamp-3">
                             { post.content }
                         </pre>

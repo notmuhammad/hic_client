@@ -1,5 +1,5 @@
 import { Comment as CommentT } from '../types/comment';
-import { ago } from './util/time';
+import { ago } from '../util/time';
 
 export default function Comment(
     { comment, pending = false }: 

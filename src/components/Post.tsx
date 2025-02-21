@@ -11,7 +11,7 @@ import { Send } from 'lucide-react';
 import Input from './ui/Input';
 import Button from './ui/Button';
 import { Comment as CommentType } from '../types/comment';
-import { ago } from './util/time';
+import { ago } from '../util/time';
 import { Post as PostType } from '../types/post';
 
 export default function Post() {
